@@ -1,0 +1,8 @@
+<section class="main">
+{% defer (url=endpoint) %}
+    <div class="threads-container thread-detail-view">
+        {% set t = response %}
+        {% include 'comm/thread_detail.html' %}
+    </div>
+{% end %}
+</section>

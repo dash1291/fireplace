@@ -8,6 +8,7 @@ define('models', ['log', 'requests', 'underscore'], function(log, requests, _) {
     var prototypes = {
         'app': 'slug',
         'category': 'slug',
+        'thread': 'id',
 
         // Dummy prototypes to facilitate testing
         'dummy': 'id',

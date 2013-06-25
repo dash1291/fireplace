@@ -1,0 +1,27 @@
+<div class="note-detail">
+	<div>
+		<img class="author-gravatar" src="http://www.gravatar.com/avatar/{{ note.author_meta.gravatar_hash }}?s=36"></img>
+	    <span class="author-name">{{ note.author_meta.name }}</span>
+	    <span class="info">On </span>
+	    <span class="date-posted">{{ note.created|datetime }}</span>
+	    {% set note_type = note.note_type %}
+	    {% if note_type == 0 %}
+	    <div class="note-action post">posted</div>
+	    {% elif note_type == 1 %}
+	    <div class="note-action approve">approved the app.</div>
+	    {% elif note_type == 2 %}
+	    <div class="note-action reject">rejected the app.</div>
+	    {% elif note_type == 3 %}
+	    <div class="note-action disable">disabled the app.</div>
+	    {% elif note_type == 4 %}
+	    <div class="note-action need_info">needs more info.</div>
+	    {% elif note_type == 5 %}
+	    <div class="note-action escalate">escalated app to senior reviewer.</div>
+	    {% elif note_type == 6 %}
+	    <div class="note-action comment">commented on the app.</div>
+	    {% endif %}
+
+	    <div class="c"></div>
+	</div>
+	<div class="note-body">{{ note.body }}</div>
+</div>

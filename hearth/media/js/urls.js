@@ -51,7 +51,12 @@ define('urls',
         'feedback': '/api/v1/account/feedback/',
 
         'prepare_nav_pay': '/api/v1/webpay/prepare/',
-        'payments_status': '/api/v1/webpay/status/{0}/'
+        'payments_status': '/api/v1/webpay/status/{0}/',
+
+        'threads': '/api/v1/comm/thread/',
+        'thread': '/api/v1/comm/thread/{0}/',
+        'notes': '/api/v1/comm/thread/{0}/note/',
+        'note': '/api/v1/comm/thread/{0}/note/{1}/'
     };
 
     function _dev() {
@@ -119,6 +124,10 @@ define('urls',
         return api(endpoint, [], params);
     };
 
+    var absolutifyApiHyperlink = function(url, args, params) {
+        return settings.api_url + url;
+    };
+
     return {
         reverse: reverse,
         api: {
@@ -128,8 +137,9 @@ define('urls',
             unsigned: {
                 url: api,
                 params: apiParams
-            }
+            },
         },
-        _device: _device
+        _device: _device,
+        absolutifyApiHyperlink: _userArgs(absolutifyApiHyperlink)
     };
 });

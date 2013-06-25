@@ -1,0 +1,116 @@
+.threads-container {
+    .info {
+        font-style: italic;
+        color: #aaa;
+    }
+}
+
+.thread-item {
+    border: 1px solid #e7e7e7;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+
+    section {
+        padding: 10px;
+    }
+}
+
+.thread-header {
+    position: relative;
+    padding: 5px;
+    background-color: #ffffff;
+    overflow: hidden;
+
+    .addon-icon {
+        float: left;
+        margin: 0 10px 0 0;
+        width: 64px;
+        height: 64px;
+    }
+    .addon-name {
+        margin-top: 6px;
+        font-size: 15px;
+    }
+    .button.reply {
+        float: right;
+        margin-top:20px;
+    }
+    padding: 10px 0 0 0;
+    .note-count {
+        font-size: 38px;
+        line-height: 42px;
+    }
+    .thread-meta {
+        float: left;
+        width: 70%;
+    }
+    .reply-text {
+        margin-top: 5px;
+        width: 100%;
+        border: 1px solid #e7e7e7;
+    }
+    .reply-box {
+        button {
+            margin-top: 5px;
+
+            &.disabled {
+                disabled: true;
+                color: #aaa;
+            }
+        }
+        &.hidden {
+            display: none;
+        }
+    }
+}
+
+.notes-container {
+    .note-detail {
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+
+        img.author-gravatar {
+            float: left;
+            margin-right: 8px;
+        }
+
+        .author-name {
+            font-weight: bold;
+        }
+
+        &:last-of-type {
+            border-bottom: none;
+        }
+
+        .note-body {
+            border: 1px solid #e9e9e9;
+            border-radius: 5px;
+            padding: 5px;
+            margin-top: 3px;
+            color: black;
+        }
+        .note-action {
+            &.post {
+                color: #888;
+            }
+
+            &.approve {
+                color: green;
+                font-weight: bold;
+            }
+
+            &.disable,
+            &.reject {
+                color: red;
+                font-weight: bold;
+            }
+
+            &.need_info,
+            &.escalate {
+                color: #FF7800;
+                font-weight: bold;
+            }
+        }
+    }
+}

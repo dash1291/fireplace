@@ -7,6 +7,7 @@ var feq_ = a.feq_;
 var filters = nunjucks.require('filters');
 var utils = require('utils');
 
+
 test('String strip', function(done) {
     eq_(('  a s d  f   ').strip(), 'asdf');
     done();

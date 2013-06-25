@@ -1,0 +1,10 @@
+<section class="main">
+{% defer (url=endpoint|urlparams(ordering='-modified')) %}
+    <div class="threads-container">
+        {% set threads = response.objects %}
+        {% for t in threads %}
+            {% include 'comm/thread_detail.html' %}
+        {% endfor %}
+    </div>
+{% end %}
+</section>
