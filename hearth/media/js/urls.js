@@ -119,6 +119,10 @@ define('urls',
         return api(endpoint, [], params);
     };
 
+    var absolutifyApiUrl = function(url) {
+        return (settings.api_url + url);
+    }
+
     return {
         reverse: reverse,
         api: {
@@ -130,6 +134,7 @@ define('urls',
                 params: apiParams
             }
         },
-        _device: _device
+        _device: _device,
+        absolutifyApiUrl: _userArgs(absolutifyApiUrl)
     };
 });

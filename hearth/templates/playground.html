@@ -2,10 +2,10 @@
   <h2>This is Playground</h2>
   {% defer (url='/media/out.json') %}
     {% for api in this.api_list %}
-    <div id="api_{{ api.api_name }}">
+    <div class="api-container" id="api_{{ api.api_name }}">
       <h2><a href="#api_{{api.api_name}}">{{ api.api_name }}</a></h2>
       {% for endpoint in api.endpoints %}
-      <div class="endpoint-container">
+      <div class="endpoint-container" data-url="{{ endpoint.url }}" data-method="{{ endpoint.method }}">
         <p><a class="api-endpoint">{{ endpoint.method }} {{ endpoint.url }}</a></p>
           <div class="options hidden">
             {% for param in endpoint.request.params %}
@@ -13,7 +13,8 @@
             <input type="text" size="20">
             </p>
             {% endfor %}
-            <button class="button">Send Request</button>
+            <button class="send-request button">Send Request</button>
+            <pre class="response"></pre>
           </div>
       </div>
       {% endfor %}
