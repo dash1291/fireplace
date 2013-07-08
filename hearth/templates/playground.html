@@ -5,13 +5,16 @@
     <div id="api_{{ api.api_name }}">
       <h2><a href="#api_{{api.api_name}}">{{ api.api_name }}</a></h2>
       {% for endpoint in api.endpoints %}
-      <div class="endpoint-container" id="{{endpoint.url.replace('/', '')}}">
-        <p><a class="api-endpoint" href="#{{endpoint.url.replace('/', '')}}">{{ endpoint.url }}</a></p>
+      <div class="endpoint-container">
+        <p><a class="api-endpoint">{{ endpoint.method }} {{ endpoint.url }}</a></p>
           <div class="options hidden">
-          {% for param in endpoint.request.params %}
-          <p>{{ param.name }}</p>
-          {% endfor %}
-        </div>
+            {% for param in endpoint.request.params %}
+            <p>{{ param.name }}
+            <input type="text" size="20">
+            </p>
+            {% endfor %}
+            <button class="button">Send Request</button>
+          </div>
       </div>
       {% endfor %}
     </div>
