@@ -1,0 +1,20 @@
+<div class="main">
+  <h2>This is Playground</h2>
+  {% defer (url='/media/out.json') %}
+    {% for api in this.api_list %}
+    <div id="api_{{ api.api_name }}">
+      <h2><a href="#api_{{api.api_name}}">{{ api.api_name }}</a></h2>
+      {% for endpoint in api.endpoints %}
+      <div class="endpoint-container" id="{{endpoint.url.replace('/', '')}}">
+        <p><a class="api-endpoint" href="#{{endpoint.url.replace('/', '')}}">{{ endpoint.url }}</a></p>
+          <div class="options hidden">
+          {% for param in endpoint.request.params %}
+          <p>{{ param.name }}</p>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  {% end %}
+</div>
