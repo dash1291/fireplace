@@ -3,21 +3,30 @@
   {% defer (url='/media/out.json') %}
     {% for api in this.api_list %}
     <div class="api-container" id="api_{{ api.api_name }}">
-      <h2><a href="#api_{{api.api_name}}">{{ api.api_name }}</a></h2>
-      {% for endpoint in api.endpoints %}
-      <div class="endpoint-container" data-url="{{ endpoint.url }}" data-method="{{ endpoint.method }}">
-        <p><a class="api-endpoint">{{ endpoint.method }} {{ endpoint.url }}</a></p>
-          <div class="options hidden">
-            {% for param in endpoint.request.params %}
-            <p>{{ param.name }}
-            <input type="text" size="20">
-            </p>
-            {% endfor %}
-            <button class="send-request button">Send Request</button>
-            <pre class="response"></pre>
-          </div>
-      </div>
+      <h2><a class="api-name" href="#api_{{api.api_name}}">{{ api.api_name }}</a></h2>
+      <div class="endpoints-container hidden">
+        {% for endpoint in api.endpoints %}
+        <div class="endpoint-container" data-url="{{ endpoint.url }}" data-method="{{ endpoint.method }}">
+          <p><a class="api-endpoint">{{ endpoint.method }} {{ endpoint.url }}</a></p>
+            <div class="options hidden">
+              {% for arg in endpoint.url_args %}
+                <p>
+                  <span>{{ arg.name }}</span>
+                  <input type="text" size="20" class="param" data-name="{{ arg.name }}">
+                </p>
+              {% endfor %}
+              {% for param in endpoint.request.params %}
+                <p>
+                  <span>{{ param.name }}</span>
+                  <input type="text" size="20" class="param" data-name="{{ param.name }}">
+                </p>
+              {% endfor %}
+              <button class="send-request button">Send Request</button>
+              <pre class="response"></pre>
+            </div>
+        </div>
       {% endfor %}
+      </div>
     </div>
     {% endfor %}
   {% end %}
