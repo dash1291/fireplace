@@ -3,6 +3,21 @@ define('views/apiplayground',
     function(z, requests, urls) {
     'use strict';
 
+    function buildUrl(url, args, params) {
+        var arg = null;
+        var val = '';
+        var regex = null;
+        console.log(args);
+        for (arg in args) {
+            val = args[arg];
+            regex = new RegExp('\\(.+?:' + arg + '\\)');
+            url = url.replace(regex, function(match) {
+                return val;
+            });
+        }
+        return url
+    }
+
     z.page.on('click', '.api-endpoint', function(e) {
         var $this = $(this);
         $('.options').hide();
@@ -21,10 +36,26 @@ define('views/apiplayground',
         var $this = $(this);
         var url = $this.parent().parent().data('url');
         var method = $this.parent().parent().data('method');
-        console.log(method);
-        if (method=='get') {
-            var url = urls.absolutifyApiUrl(url);
+
+        if (method == 'get') {
+            var params = {};
+            $this.siblings('.request-params').find('input').each(function() {
+                var $_this = $(this);
+                params[$_this.data('name')] = $_this.val();
+            });
+
+            url = urls.absolutifyApiUrl(url, params);
+            console.log(url);
+            var args = {};
+            $this.siblings('.url-args').find('input').each(function() {
+                console.log('here');
+                var $_this = $(this);
+                args[$_this.data('name')] = $_this.val();
+            });
+
+            url = buildUrl(url, args, params);
             requests.get(url).done(function(data) {
+                console.log($this);
                 $this.siblings('.response').html(JSON.stringify(data, null, '  '));
             });
         }

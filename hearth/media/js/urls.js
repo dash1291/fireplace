@@ -119,8 +119,12 @@ define('urls',
         return api(endpoint, [], params);
     };
 
-    var absolutifyApiUrl = function(url) {
-        return (settings.api_url + url);
+    var absolutifyApiUrl = function(url, params) {
+        var url = settings.api_url + url;
+        if (params) {
+            url = require('utils').urlparams(url, params);
+        }
+        return url;
     }
 
     return {

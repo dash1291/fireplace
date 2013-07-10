@@ -9,18 +9,28 @@
         <div class="endpoint-container" data-url="{{ endpoint.url }}" data-method="{{ endpoint.method }}">
           <p><a class="api-endpoint">{{ endpoint.method }} {{ endpoint.url }}</a></p>
             <div class="options hidden">
-              {% for arg in endpoint.url_args %}
+              {% if endpoint.url_args.length %}
+              <div class="url-args">
+                <strong>URL args</strong>
+                {% for arg in endpoint.url_args %}
                 <p>
                   <span>{{ arg.name }}</span>
-                  <input type="text" size="20" class="param" data-name="{{ arg.name }}">
+                  <input type="text" size="20" class="url-arg" data-name="{{ arg.name }}">
                 </p>
-              {% endfor %}
+                {% endfor %}
+              </div>
+              {% endif %}
+              {% if endpoint.request.params.length %}
+              <div class="request-params">
+                <strong>Request Params</strong>
               {% for param in endpoint.request.params %}
                 <p>
                   <span>{{ param.name }}</span>
                   <input type="text" size="20" class="param" data-name="{{ param.name }}">
                 </p>
               {% endfor %}
+              </div>
+              {% endif %}
               <button class="send-request button">Send Request</button>
               <pre class="response"></pre>
             </div>
