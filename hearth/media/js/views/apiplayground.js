@@ -7,14 +7,14 @@ define('views/apiplayground',
         var arg = null;
         var val = '';
         var regex = null;
-        console.log(args);
-        for (arg in args) {
-            val = args[arg];
-            regex = new RegExp('\\(.+?:' + arg + '\\)');
-            url = url.replace(regex, function(match) {
-                return val;
-            });
-        }
+        var matches;
+        var regex = /\/\(.+?\)\//g;
+
+        var i = 0;
+        url = url.replace(regex, function() {
+            return '/' + args[i++] + '/';
+        });
+
         return url
     }
 
@@ -46,11 +46,10 @@ define('views/apiplayground',
 
             url = urls.absolutifyApiUrl(url, params);
             console.log(url);
-            var args = {};
+            var args = [];
             $this.siblings('.url-args').find('input').each(function() {
-                console.log('here');
                 var $_this = $(this);
-                args[$_this.data('name')] = $_this.val();
+                args.push($_this.val());
             });
 
             url = buildUrl(url, args, params);

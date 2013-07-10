@@ -15,7 +15,7 @@
                 {% for arg in endpoint.url_args %}
                 <p>
                   <span>{{ arg.name }}</span>
-                  <input type="text" size="20" class="url-arg" data-name="{{ arg.name }}">
+                  <input type="text" size="20" class="url-arg" data-index="{{ endpoint.url_args.indexOf(arg) }}" data-name="{{ arg.name }}">
                 </p>
                 {% endfor %}
               </div>
