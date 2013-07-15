@@ -22,10 +22,6 @@ define('views/apiplayground',
         var $this = $(this);
         $('.options').hide();
         var html = $this.parent().siblings('.options').html();
-        var left = $this[0].offsetLeft;
-        var top = $this[0].offsetTop;
-        var width = $this[0].offsetWidth;
-        //$this.parent().siblings('.options').show();
         $('.playfield').html(html);
     });
 
@@ -38,17 +34,20 @@ define('views/apiplayground',
     z.page.on('click', 'input[name="view-selector"]', function() {
         var $this = $(this);
         var view_name = $this.val();
-        $this.parent().siblings('.view').hide();
-        $this.parent().siblings('.' + view_name + '-view').show();
+        var $toolbox = $this.closest('.toolbox');
+        $toolbox.siblings('.view').hide();
+        $toolbox.siblings('.' + view_name + '-view').show();
     });
 
     z.page.on('click', '.send-request', function() {
         var $this = $(this);
         var url = $this.data('url');
         var method = $this.data('method');
-
+        var $toolbox = $this.closest('.toolbox')
         var params = {};
-        $this.parent().siblings('.request-view').find('.request-params input').each(function() {
+
+        var $requestView = $toolbox.siblings('.request-view');
+        $requestView.find('.request-params input').each(function() {
             var $_this = $(this);
             var val = $_this.val();
             if (val.length > 0) {
@@ -57,7 +56,7 @@ define('views/apiplayground',
         });
 
         var args = [];
-        $this.parent().siblings('.request-view').find('.url-args input').each(function() {
+        $requestView.find('.url-args input').each(function() {
             var $_this = $(this);
             args.push($_this.val());
         });
@@ -65,28 +64,18 @@ define('views/apiplayground',
         function errorHandler(err) {
             var json = JSON.stringify(err.responseText, null, '  ');
             $this.siblings('.response-view').html('<div><p class="error">Error occured</p><pre>' + json + '</pre></div>');
+            $this.siblings('.response-selector').trigger('click');
         }
 
         function responseHandler(data) {
             // Display response in to the response panel.
-            $this.parent().siblings('.response-view').html('<pre>' + JSON.stringify(data, null, '  ') + '</pre>');
+            $toolbox.siblings('.response-view').html('<pre>' + JSON.stringify(data, null, '  ') + '</pre>');
             $this.siblings('.response-selector').trigger('click');
         }
 
-        switch (method) {
-            case 'get':
-                url = buildUrl(url, args, params);
-                url = urls.absolutifyApiUrl(url, params);
-                requests.get(url).done(responseHandler).fail(errorHandler);
-                break;
-
-            case 'post':
-                // TODO: pass params to the absolutify
-                url = urls.absolutifyApiUrl(url);
-                url = buildUrl(url, args, params);
-                requests.post(url).done(responseHandler).fail(errorHandler);
-                break;
-        }
+        url = buildUrl(url, args, params);
+        url = urls.absolutifyApiUrl(url, {}, params);
+        requests[method](url).done(responseHandler).fail(errorHandler);
     });
 
     return function(builder) {
