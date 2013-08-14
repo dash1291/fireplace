@@ -13,27 +13,17 @@ STYL_FILES = $(wildcard \
 CSS_FILES = $(STYL_FILES:.styl=.styl.css)
 COMPILED_TEMPLATES = hearth/templates.js
 
-compile: $(COMPILED_TEMPLATES) $(CSS_FILES)
-
 fastcompile:
 	node damper.js --compile
 
 $(COMPILED_TEMPLATES): $(TEMPLATES)
-	node damper.js --compile nunjucks
+	commonplace compile nunjucks
 
 %.styl.css: %.styl
 	node damper.js --compile stylus --path $<
 
 l10n: clean fastcompile
 	./locale/omg_new_l10n.sh
-
-langpacks:
-	mkdir -p hearth/locales
-	for po in `find locale -name "*.po"` ; do \
-		lang=`basename \`dirname \\\`dirname $$po\\\`\` | tr "_" "-"`; \
-		node scripts/generate_langpacks.js $$po $$lang; \
-		mv $$po.js hearth/locales/$$lang.js ; \
-	done
 
 test: clean fastcompile
 	cd smokealarm ; \
@@ -60,29 +50,13 @@ log: clean
 	@echo "Created file: yulelog_$(NAME)_$(VERSION_INT).zip"
 
 clean:
-	@rm -rf TMP \
-		$(CSS_FILES) \
-		$(COMPILED_TEMPLATES) \
-		hearth/locales/* \
-		hearth/media/css/include.css \
-		hearth/media/js/include.*
+	commonplace clean
 
 raw_includes: clean compile langpacks
-	echo "/* $(VERSION) */" > hearth/media/include.css
-	echo "/* $(VERSION) */" > hearth/media/include.js
-	cat amd/amd.js >> hearth/media/include.js
-	node build.js
+	commonplace includes --raw
 
-includes: raw_includes
-	./node_modules/.bin/cleancss hearth/media/include.css > hearth/media/css/include.css
-	cleancss hearth/media/include.css > hearth/media/css/include.css
-	rm -f hearth/media/include.css
-	mv hearth/media/include.js hearth/media/js/
-	./node_modules/.bin/uglifyjs hearth/media/js/include.js -o hearth/media/js/include.js -m -c --screw-ie8
-
-lint:
-	# You need closure-linter installed for this.
-	gjslint --nojsdoc -r hearth/media/js/ -e lib
+includes: clean compile langpacks
+	commonplace includes
 
 deploy:
 	git fetch && git reset --hard origin/master && npm install && make includes

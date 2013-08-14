@@ -34,21 +34,9 @@ Fireplace is a packaged version of the Firefox Marketplace's front-end.
 
 ## Installation
 
-```bash
-npm install -d
-```
+Commbadge is based on [commonplace](https://github.com/mozilla/commonplace) and that is all you need to run commbadge.
 
-Our dependencies:
-
-- `nunjucks`: For templates
-- `stylus`: For stylesheets
-
-If you plan on doing compilation (i.e.: you're Wil Clouser), you'll also need
-
-- `clean-css`: For minifying CSS or whatever
-- `requirejs`: For warming up Spaceheater
-- `uglify-js`: For minifying JS and L10n string extraction
-
+Follow commonplace installation instructions on this page: https://github.com/mozilla/commonplace/blob/master/README.md
 
 ### Flue
 
@@ -61,82 +49,12 @@ Comprehensive Flue documentation can be found in
 Docs can be found in
 [Yule Log's README](https://github.com/mozilla/fireplace/blob/master/yulelog/README.md)
 
-
-### Getting node/npm
-
-
-#### OS X
-
-```bash
-brew install node
-```
-
-And make sure that `/usr/local/share/npm/bin` is in your `$PATH`, à la: ::
-
-```bash
-export PATH=/usr/local/share/npm/bin:$PATH
-```
-
-
 ## Usage
 
-From the terminal, run the following command
-
-```bash
-node damper.js
-```
-
-This will start a local server on 0.0.0.0:8675 by default.
-
-To control the hostname and port you can use the following otions
-
-```bash
-node damper.js --host 127.0.0.1 --port 8888
-```
-
-In addition to an HTTP server, the damper will also run a Stylus watcher (to
-recompile CSS as it's edited) and a template watcher (to recompile templates
-as they're edited).
+Commonplace's `damper` can be used to run a test server and filesystem watcher.
 
 For instructions on running Flue (the mock API server), please see the [Flue
-docs](https://github.com/mozilla/fireplace/blob/master/flue/README.rst).
-
-
-### Compiling
-
-To run the compilation process, which compiles templates, CSS, and locale
-files, run the damper with the `--compile` argument:
-
-```bash
-node damper.js --compile
-```
-
-The damper will not start a local server in this case, but a `strings.po` file
-will be generated.
-
-
-### Compiling Includes
-
-If you need to compile include files (i.e.: for Space Heater or a less HTTP-
-heavy version of the project), run `make includes`. This will generate two files:
-
-```
-hearth/media/js/include.js
-hearth/media/css/include.css
-```
-
-The CSS in `include.css` is generated in the order in which CSS files are
-included in `hearth/index.html`.
-
-`include.js` uses a lightweight AMD loader (rather than require.js). This keeps
-file size down and also makes it possible to name-mangle internal keywords which
-otherwise wouldn't be minifiable. Note that the only safe globals are `require`
-and `define`---using any other non-browser globals will result in errors. I.e.:
-accessing `_` without requiring `'underscore'` will cause the code to fail. Also
-note that all modules must include a name as the first parameter.
-
-Note that you need the dev dependencies to run this compilation. You can get
-them by running `npm install -d`.
+docs](https://github.com/mozilla/flue/blob/master/README.md).
 
 
 ## Localizing
@@ -148,12 +66,6 @@ found [on the wiki](https://github.com/mozilla/fireplace/wiki/L10n#extracting-st
 ## The API
 
 [Read the docs.](http://firefox-marketplace-api.readthedocs.org/)
-
-
-## Bugs
-
-- If new templates or ``.styl`` files are added, they will not be recognized
-  until the damper is restarted. Deleted files may also cause problems.
 
 
 ## Tests
